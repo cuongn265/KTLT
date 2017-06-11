@@ -1,0 +1,18 @@
+D:\TAI LIEU CAC MON HOC\KTLT_BAO\BaiTienLenMienNam\bin\Debug\BaiTienLenMienNam.exe.config
+D:\TAI LIEU CAC MON HOC\KTLT_BAO\BaiTienLenMienNam\bin\Debug\BaiTienLenMienNam.exe
+D:\TAI LIEU CAC MON HOC\KTLT_BAO\BaiTienLenMienNam\bin\Debug\BaiTienLenMienNam.pdb
+D:\TAI LIEU CAC MON HOC\KTLT_BAO\BaiTienLenMienNam\obj\Debug\BaiTienLenMienNam.csprojResolveAssemblyReference.cache
+D:\TAI LIEU CAC MON HOC\KTLT_BAO\BaiTienLenMienNam\obj\Debug\BaiTienLenMienNam.Form1.resources
+D:\TAI LIEU CAC MON HOC\KTLT_BAO\BaiTienLenMienNam\obj\Debug\BaiTienLenMienNam.Properties.Resources.resources
+D:\TAI LIEU CAC MON HOC\KTLT_BAO\BaiTienLenMienNam\obj\Debug\BaiTienLenMienNam.csproj.GenerateResource.Cache
+D:\TAI LIEU CAC MON HOC\KTLT_BAO\BaiTienLenMienNam\obj\Debug\BaiTienLenMienNam.exe
+D:\TAI LIEU CAC MON HOC\KTLT_BAO\BaiTienLenMienNam\obj\Debug\BaiTienLenMienNam.pdb
+C:\Users\ThanhLam\Desktop\BaiTienLenMienNam\BaiTienLenMienNam\bin\Debug\BaiTienLenMienNam.exe.config
+C:\Users\ThanhLam\Desktop\BaiTienLenMienNam\BaiTienLenMienNam\bin\Debug\BaiTienLenMienNam.exe
+C:\Users\ThanhLam\Desktop\BaiTienLenMienNam\BaiTienLenMienNam\bin\Debug\BaiTienLenMienNam.pdb
+C:\Users\ThanhLam\Desktop\BaiTienLenMienNam\BaiTienLenMienNam\obj\Debug\BaiTienLenMienNam.csprojResolveAssemblyReference.cache
+C:\Users\ThanhLam\Desktop\BaiTienLenMienNam\BaiTienLenMienNam\obj\Debug\BaiTienLenMienNam.Form1.resources
+C:\Users\ThanhLam\Desktop\BaiTienLenMienNam\BaiTienLenMienNam\obj\Debug\BaiTienLenMienNam.Properties.Resources.resources
+C:\Users\ThanhLam\Desktop\BaiTienLenMienNam\BaiTienLenMienNam\obj\Debug\BaiTienLenMienNam.csproj.GenerateResource.Cache
+C:\Users\ThanhLam\Desktop\BaiTienLenMienNam\BaiTienLenMienNam\obj\Debug\BaiTienLenMienNam.exe
+C:\Users\ThanhLam\Desktop\BaiTienLenMienNam\BaiTienLenMienNam\obj\Debug\BaiTienLenMienNam.pdb
