@@ -16,3 +16,12 @@ C:\Users\ThanhLam\Desktop\BaiTienLenMienNam\BaiTienLenMienNam\obj\Debug\BaiTienL
 C:\Users\ThanhLam\Desktop\BaiTienLenMienNam\BaiTienLenMienNam\obj\Debug\BaiTienLenMienNam.csproj.GenerateResource.Cache
 C:\Users\ThanhLam\Desktop\BaiTienLenMienNam\BaiTienLenMienNam\obj\Debug\BaiTienLenMienNam.exe
 C:\Users\ThanhLam\Desktop\BaiTienLenMienNam\BaiTienLenMienNam\obj\Debug\BaiTienLenMienNam.pdb
+D:\Workspace\VisualStudioProjects\baitapcuaLam\bin\Debug\BaiTienLenMienNam.exe.config
+D:\Workspace\VisualStudioProjects\baitapcuaLam\bin\Debug\BaiTienLenMienNam.exe
+D:\Workspace\VisualStudioProjects\baitapcuaLam\bin\Debug\BaiTienLenMienNam.pdb
+D:\Workspace\VisualStudioProjects\baitapcuaLam\obj\Debug\BaiTienLenMienNam.csprojResolveAssemblyReference.cache
+D:\Workspace\VisualStudioProjects\baitapcuaLam\obj\Debug\BaiTienLenMienNam.Form1.resources
+D:\Workspace\VisualStudioProjects\baitapcuaLam\obj\Debug\BaiTienLenMienNam.Properties.Resources.resources
+D:\Workspace\VisualStudioProjects\baitapcuaLam\obj\Debug\BaiTienLenMienNam.csproj.GenerateResource.Cache
+D:\Workspace\VisualStudioProjects\baitapcuaLam\obj\Debug\BaiTienLenMienNam.exe
+D:\Workspace\VisualStudioProjects\baitapcuaLam\obj\Debug\BaiTienLenMienNam.pdb

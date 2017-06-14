@@ -623,6 +623,7 @@ namespace BaiTienLenMienNam
                     numberClicks[id - 14] = 1;
                     numberClicks[id1 - 14] = 1;
                     DisposeCard();
+                    resetPlayerCardsPosition();
                 }
             }
             else if (list.Count() == 3)
@@ -632,6 +633,8 @@ namespace BaiTienLenMienNam
                 int b = ToInteger(list[1].Tag.ToString()) / 4;
                 int c = ToInteger(list[2].Tag.ToString()) / 4;
                 float tb = (float)(a + b + c) / 3;
+                Console.WriteLine("TB: " + tb);
+
                 if (tb == a || tb == b || tb == c)
                 {
                     list[0].Location = new Point(x, y);
@@ -639,6 +642,12 @@ namespace BaiTienLenMienNam
                     list[1].Location = new Point(x, y);
                     x = x + 30;
                     list[2].Location = new Point(x, y);
+                }
+                else
+                {
+                    //Bai khong hop le
+                    resetPlayerCardsPosition();
+                    return;
                 }
             }
             else
@@ -649,7 +658,6 @@ namespace BaiTienLenMienNam
                     list[0].Location = new Point(x, y);
                 }
             }
-            Console.WriteLine(list.ToString());
             ComputerPlay();
         }
         private int ToInteger(Object tag)
@@ -660,6 +668,10 @@ namespace BaiTienLenMienNam
         {
             int x = 500;
             int y = 160;
+            if (list.Count == 0)
+            {
+                // Computer begin turn
+            }
             if (list.Count == 2)
             {
                 for (int i = 0; i < pictureBoxes1.Length - 1; i++)
@@ -684,18 +696,24 @@ namespace BaiTienLenMienNam
             else if (list.Count == 3)
             {
                 // 2 truong hop: 3 quan va loc
-                int a = ToInteger(list[0].Tag.ToString()) / 4;
-                int b = ToInteger(list[1].Tag.ToString()) / 4;
-                int c = ToInteger(list[2].Tag.ToString()) / 4;
+                Console.WriteLine("Tiep chieu !");
+
+
+                int a = tagToCardValue(list[0].Tag);
+                int b = tagToCardValue(list[1].Tag);
+                int c = tagToCardValue(list[2].Tag);
+                Console.WriteLine("Player card value {0}, {1}, {2}", a, b, c);
+
 
                 if (a == b && b == c)
                 {
                     // 3 quan giong nhau
                     for (int i = 0; i < pictureBoxes1.Length - 2; i++)
                     {
-                        if ((tagToCardValue(pictureBoxes1[i].Tag.ToString()) == tagToCardValue(pictureBoxes1[i + 1].Tag.ToString())) && (tagToCardValue(pictureBoxes1[i].Tag.ToString()) == tagToCardValue(pictureBoxes1[i + 2].Tag.ToString()) - 2))
+                        if ((tagToCardValue(pictureBoxes1[i].Tag) == tagToCardValue(pictureBoxes1[i + 1].Tag)) && (tagToCardValue(pictureBoxes1[i].Tag) == tagToCardValue(pictureBoxes1[i + 2].Tag) - 2))
                         {
                             DisposeCard();
+                            // play cards
                             pictureBoxes1[i].Location = new Point(x, y);
                             x = x + 30;
                             pictureBoxes1[i + 1].Location = new Point(x, y);
@@ -711,7 +729,7 @@ namespace BaiTienLenMienNam
                     int pointerIndex = 0;
                     for (int i = 0; i < pictureBoxes1.Length; i++)
                     {
-                        if (tagToCardValue(list[0].Tag.ToString()) == tagToCardValue(pictureBoxes1[i].Tag.ToString()))
+                        if (tagToCardValue(list[0].Tag) == tagToCardValue(pictureBoxes1[i].Tag))
                         {
                             pointerIndex = i;
                             break;
@@ -719,7 +737,12 @@ namespace BaiTienLenMienNam
                     }
                     for (int i = pointerIndex; i < pictureBoxes1.Length - 2; i++)
                     {
-                        if ((tagToCardValue(pictureBoxes1[i].Tag.ToString()) == tagToCardValue(pictureBoxes1[i + 1].Tag.ToString()) - 1) && (tagToCardValue(pictureBoxes1[i].Tag.ToString()) == tagToCardValue(pictureBoxes1[i + 2].Tag.ToString()) - 2))
+
+
+
+                        if ((tagToCardValue(pictureBoxes1[i].Tag) == tagToCardValue(pictureBoxes1[i + 1].Tag) - 1) &&
+                            (tagToCardValue(pictureBoxes1[i].Tag) == tagToCardValue(pictureBoxes1[i + 2].Tag) - 2)
+                            )
                         {
                             DisposeCard();
                             pictureBoxes1[i].Location = new Point(x, y);
@@ -727,9 +750,11 @@ namespace BaiTienLenMienNam
                             pictureBoxes1[i + 1].Location = new Point(x, y);
                             x = x + 30;
                             pictureBoxes1[i + 2].Location = new Point(x, y);
+                            // End turn
                             return;
                         }
                     }
+                    Console.WriteLine("Deo danh duoc");
                 }
             }
             else
@@ -738,7 +763,6 @@ namespace BaiTienLenMienNam
                 {
                     for (int i = 0; i < pictureBoxes1.Length; i++)
                     {
-
                         if ((ToInteger(pictureBoxes1[i].Tag) > ((ToInteger(list[0].Tag)))))
                         {
                             DisposeCard();
@@ -755,6 +779,7 @@ namespace BaiTienLenMienNam
 
                 }
             }
+            return;
         }
 
         private void DisposeCard()
@@ -767,16 +792,26 @@ namespace BaiTienLenMienNam
 
         private int tagToCardValue(Object tag)
         {
-            return ToInteger(tag) / 4 + 3;
+            return ToInteger(tag.ToString()) / 4 + 3;
         }
-        private int tagToCardType(Object tag) {
+        private int tagToCardType(Object tag)
+        {
             /**
              * 0: B
              * 1: H
              * 2: R
              * 3: C
              */
-             return ToInteger(tag) % 4;
+            return ToInteger(tag.ToString()) % 4;
+        }
+
+        private void resetPlayerCardsPosition()
+        {
+            foreach (var picturebox in pictureBoxes)
+            {
+                int x = picturebox.Location.X;
+                picturebox.Location = new Point(x, 316);
+            }
         }
 
         private void Form1_Load(object sender, EventArgs e)
