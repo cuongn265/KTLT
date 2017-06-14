@@ -457,7 +457,8 @@ namespace BaiTienLenMienNam
         }
         PictureBox[] playerDeckPictureBoxes;
         PictureBox[] computerDecksPictureBoxes;
-        List<PictureBox> cardsOnTable;
+        List<PictureBox> playerTargetCards;
+        List<PictureBox> computerTargetCards;
 
         private void sortCards()
         {
@@ -587,8 +588,7 @@ namespace BaiTienLenMienNam
 
         private void bt_RB_Click(object sender, EventArgs e)
         {
-
-            cardsOnTable = new List<PictureBox>();
+            playerTargetCards = new List<PictureBox>();
             PictureBox p = new PictureBox();
             int x = 500;
             int y = 160;
@@ -598,50 +598,50 @@ namespace BaiTienLenMienNam
                 {
                     string name = "pictureBox" + (i + 14).ToString();
                     p = (PictureBox)Controls.Find(name, true)[0];
-                    cardsOnTable.Add(p);
+                    playerTargetCards.Add(p);
                     numberClicks[i] = 0;
                 }
             }
-            if (cardsOnTable.Count() == 2)
+            if (playerTargetCards.Count() == 2)
             {
-                int a = Int32.Parse(cardsOnTable[0].Tag.ToString());
-                int b = Int32.Parse(cardsOnTable[1].Tag.ToString());
+                int a = Int32.Parse(playerTargetCards[0].Tag.ToString());
+                int b = Int32.Parse(playerTargetCards[1].Tag.ToString());
 
                 if (a / 4 == b / 4)
                 {
-                    DisposeCard();
-                    cardsOnTable[0].Location = new Point(x, y);
+                    DisposePlayerTargetCards();
+                    playerTargetCards[0].Location = new Point(x, y);
                     x = x + 30;
-                    cardsOnTable[1].Location = new Point(x, y);
+                    playerTargetCards[1].Location = new Point(x, y);
                 }
                 else
                 {
                     MessageBox.Show("Bài không hợp lệ!!!!", "Tiến Lên Miền Nam",
                             MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
-                    int id = Int32.Parse(cardsOnTable[0].Name.ToString().Substring(10));
-                    int id1 = Int32.Parse(cardsOnTable[1].Name.ToString().Substring(10));
+                    int id = Int32.Parse(playerTargetCards[0].Name.ToString().Substring(10));
+                    int id1 = Int32.Parse(playerTargetCards[1].Name.ToString().Substring(10));
                     numberClicks[id - 14] = 1;
                     numberClicks[id1 - 14] = 1;
-                    DisposeCard();
+                    DisposePlayerTargetCards();
                     resetPlayerCardsPosition();
                 }
             }
-            else if (cardsOnTable.Count() == 3)
+            else if (playerTargetCards.Count() == 3)
             {
                 // ba doi, ba loc
-                int a = ToInteger(cardsOnTable[0].Tag.ToString()) / 4;
-                int b = ToInteger(cardsOnTable[1].Tag.ToString()) / 4;
-                int c = ToInteger(cardsOnTable[2].Tag.ToString()) / 4;
+                int a = ToInteger(playerTargetCards[0].Tag.ToString()) / 4;
+                int b = ToInteger(playerTargetCards[1].Tag.ToString()) / 4;
+                int c = ToInteger(playerTargetCards[2].Tag.ToString()) / 4;
                 float tb = (float)(a + b + c) / 3;
                 Console.WriteLine("TB: " + tb);
 
                 if (tb == a || tb == b || tb == c)
                 {
-                    cardsOnTable[0].Location = new Point(x, y);
+                    playerTargetCards[0].Location = new Point(x, y);
                     x = x + 30;
-                    cardsOnTable[1].Location = new Point(x, y);
+                    playerTargetCards[1].Location = new Point(x, y);
                     x = x + 30;
-                    cardsOnTable[2].Location = new Point(x, y);
+                    playerTargetCards[2].Location = new Point(x, y);
                 }
                 else
                 {
@@ -652,10 +652,10 @@ namespace BaiTienLenMienNam
             }
             else
             {
-                if (cardsOnTable.Count == 1)
+                if (playerTargetCards.Count == 1)
                 {
-                    DisposeCard();
-                    cardsOnTable[0].Location = new Point(x, y);
+                    DisposePlayerTargetCards();
+                    playerTargetCards[0].Location = new Point(x, y);
                 }
             }
             ComputerPlay();
@@ -666,54 +666,72 @@ namespace BaiTienLenMienNam
         }
         private void ComputerPlay()
         {
+            computerTargetCards = new List<PictureBox>();
             int x = 500;
             int y = 160;
-            if (cardsOnTable.Count == 0)
+            if (playerTargetCards.Count == 0)
             {
                 // Computer begin turn
-
+                // Play the first card in his deck
+                DisposeComputerTargetCards();
+                computerDecksPictureBoxes[0].Location = new Point(x, y);
+                computerTargetCards.Add(computerDecksPictureBoxes[0]);
+                // end turn
+                return;
             }
-            if (cardsOnTable.Count == 2)
+
+            if (playerTargetCards.Count == 2)
             {
                 for (int i = 0; i < computerDecksPictureBoxes.Length - 1; i++)
                 {
                     if (((ToInteger(computerDecksPictureBoxes[i].Tag) / 4) == (ToInteger(computerDecksPictureBoxes[i + 1].Tag) / 4)))
                     {
-                        if ((ToInteger(computerDecksPictureBoxes[i].Tag) + ToInteger(computerDecksPictureBoxes[i + 1].Tag) > ((ToInteger(cardsOnTable[0].Tag) + (ToInteger(cardsOnTable[1].Tag))))))
+                        if ((ToInteger(computerDecksPictureBoxes[i].Tag) + ToInteger(computerDecksPictureBoxes[i + 1].Tag) > ((ToInteger(playerTargetCards[0].Tag) + (ToInteger(playerTargetCards[1].Tag))))))
                         {
-                            DisposeCard();
+                            DisposePlayerTargetCards();
                             computerDecksPictureBoxes[i].Location = new Point(x, y);
                             x = x + 30;
                             computerDecksPictureBoxes[i + 1].Location = new Point(x, y);
+                            computerTargetCards.Add(computerDecksPictureBoxes[i]);
+                            computerTargetCards.Add(computerDecksPictureBoxes[i+1]);
                             return;
                         }
                     }
                 }
                 MessageBox.Show("Máy bỏ!!!", "Tiến Lên Miền Nam",
                 MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
-                DisposeCard();
+                DisposePlayerTargetCards();
 
             }
-            else if (cardsOnTable.Count == 3)
+            else if (playerTargetCards.Count == 3)
             {
                 // 2 truong hop: 3 quan va loc
                 Console.WriteLine("Tiep chieu !");
 
 
-                int a = tagToCardValue(cardsOnTable[0].Tag);
-                int b = tagToCardValue(cardsOnTable[1].Tag);
-                int c = tagToCardValue(cardsOnTable[2].Tag);
+                int a = tagToCardValue(playerTargetCards[0].Tag);
+                int b = tagToCardValue(playerTargetCards[1].Tag);
+                int c = tagToCardValue(playerTargetCards[2].Tag);
                 Console.WriteLine("Player card value {0}, {1}, {2}", a, b, c);
 
 
                 if (a == b && b == c)
                 {
                     // 3 quan giong nhau
-                    for (int i = 0; i < computerDecksPictureBoxes.Length - 2; i++)
+                    int pointerIndex = 0;
+                    for (int i = 0; i < computerDecksPictureBoxes.Length; i++)
                     {
-                        if ((tagToCardValue(computerDecksPictureBoxes[i].Tag) == tagToCardValue(computerDecksPictureBoxes[i + 1].Tag)) && (tagToCardValue(computerDecksPictureBoxes[i].Tag) == tagToCardValue(computerDecksPictureBoxes[i + 2].Tag) - 2))
+                        if (tagToCardValue(playerTargetCards[0].Tag) == tagToCardValue(computerDecksPictureBoxes[i].Tag))
                         {
-                            DisposeCard();
+                            pointerIndex = i;
+                            break;
+                        }
+                    }
+                    for (int i = pointerIndex; i < computerDecksPictureBoxes.Length - 2; i++)
+                    {
+                        if ((tagToCardValue(computerDecksPictureBoxes[i].Tag) == tagToCardValue(computerDecksPictureBoxes[i + 1].Tag)) && (tagToCardValue(computerDecksPictureBoxes[i].Tag) == tagToCardValue(computerDecksPictureBoxes[i + 2].Tag)))
+                        {
+                            DisposePlayerTargetCards();
                             // play cards
                             computerDecksPictureBoxes[i].Location = new Point(x, y);
                             x = x + 30;
@@ -730,7 +748,7 @@ namespace BaiTienLenMienNam
                     int pointerIndex = 0;
                     for (int i = 0; i < computerDecksPictureBoxes.Length; i++)
                     {
-                        if (tagToCardValue(cardsOnTable[0].Tag) == tagToCardValue(computerDecksPictureBoxes[i].Tag))
+                        if (tagToCardValue(playerTargetCards[0].Tag) == tagToCardValue(computerDecksPictureBoxes[i].Tag))
                         {
                             pointerIndex = i;
                             break;
@@ -738,14 +756,11 @@ namespace BaiTienLenMienNam
                     }
                     for (int i = pointerIndex; i < computerDecksPictureBoxes.Length - 2; i++)
                     {
-
-
-
                         if ((tagToCardValue(computerDecksPictureBoxes[i].Tag) == tagToCardValue(computerDecksPictureBoxes[i + 1].Tag) - 1) &&
                             (tagToCardValue(computerDecksPictureBoxes[i].Tag) == tagToCardValue(computerDecksPictureBoxes[i + 2].Tag) - 2)
                             )
                         {
-                            DisposeCard();
+                            DisposePlayerTargetCards();
                             computerDecksPictureBoxes[i].Location = new Point(x, y);
                             x = x + 30;
                             computerDecksPictureBoxes[i + 1].Location = new Point(x, y);
@@ -760,13 +775,13 @@ namespace BaiTienLenMienNam
             }
             else
             {
-                if (cardsOnTable.Count == 1)
+                if (playerTargetCards.Count == 1)
                 {
                     for (int i = 0; i < computerDecksPictureBoxes.Length; i++)
                     {
-                        if ((ToInteger(computerDecksPictureBoxes[i].Tag) > ((ToInteger(cardsOnTable[0].Tag)))))
+                        if ((ToInteger(computerDecksPictureBoxes[i].Tag) > ((ToInteger(playerTargetCards[0].Tag)))))
                         {
-                            DisposeCard();
+                            DisposePlayerTargetCards();
                             computerDecksPictureBoxes[i].Location = new Point(x, y);
                             return;
                         }
@@ -774,7 +789,7 @@ namespace BaiTienLenMienNam
                     }
                     MessageBox.Show("Máy bỏ!!!", "Tiến Lên Miền Nam",
                     MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
-                    DisposeCard();
+                    DisposePlayerTargetCards();
                     Console.WriteLine("em bo luot");
                     return;
 
@@ -783,9 +798,17 @@ namespace BaiTienLenMienNam
             return;
         }
 
-        private void DisposeCard()
+        private void DisposePlayerTargetCards()
         {
-            foreach (PictureBox p in cardsOnTable)
+            foreach (PictureBox p in playerTargetCards)
+            {
+                p.Dispose();
+            }
+        }
+
+        private void DisposeComputerTargetCards()
+        {
+            foreach (PictureBox p in computerTargetCards)
             {
                 p.Dispose();
             }
@@ -823,6 +846,8 @@ namespace BaiTienLenMienNam
 
         private void bt_BQ_Click(object sender, EventArgs e)
         {
+            DisposePlayerTargetCards();
+            DisposeComputerTargetCards();
             ComputerPlay();
         }
 
