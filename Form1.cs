@@ -652,17 +652,63 @@ namespace BaiTienLenMienNam
                     return;
                 }
             }
-            else
+            else if (playerTargetCards.Count == 1)
             {
-                if (playerTargetCards.Count == 1)
+                if (!computerTargetCards.Equals(null))
                 {
-                    if (!computerTargetCards.Equals(null))
-                    {
-                        DisposeComputerTargetCards();
-                    }
+                    DisposeComputerTargetCards();
+                }
+                playerTargetCards[0].Location = new Point(x, y);
+            }
+            else if (playerTargetCards.Count == 4)
+            {
+                // Special long play handling
+                int a = tagToCardValue(playerTargetCards[0].Tag);
+                int b = tagToCardValue(playerTargetCards[1].Tag);
+                int c = tagToCardValue(playerTargetCards[2].Tag);
+                int d = tagToCardValue(playerTargetCards[3].Tag);
+                Console.WriteLine("Deck value {0}, {1}, {2}, {3}", a, b, c, d);
+                if ((a == b && b == c && c == d) ||
+                    (a == (b - 1) && b == (c - 1) && c == (d - 1))
+                    )
+                {
+                    DisposeComputerTargetCards();
                     playerTargetCards[0].Location = new Point(x, y);
+                    x = x + 30;
+                    playerTargetCards[1].Location = new Point(x, y);
+                    x = x + 30;
+                    playerTargetCards[2].Location = new Point(x, y);
+                    x = x + 30;
+                    playerTargetCards[3].Location = new Point(x, y);
+                }
+                else
+                {
+                    resetPlayerCardsPosition();
+                    return;
                 }
             }
+            else
+            {
+                // general long play set
+                for (int i = 0; i < playerTargetCards.Count - 1; i++)
+                {
+                    // phat hien chuoi bai khong tang theo tu tu
+                    if (tagToCardValue(playerTargetCards[i].Tag) != tagToCardValue(playerTargetCards[i + 1].Tag))
+                    {
+                        resetPlayerCardsPosition();
+                        return;
+                    }
+                    else {
+                        // chuoi hop le, xuat bai
+                        DisposeComputerTargetCards();
+                        for (i = 0; i < playerTargetCards.Count; i++) {
+                            playerTargetCards[i].Location = new Point(x, y);
+                            x = x + 30;
+                        }
+                    }
+                }
+            }
+
             ComputerPlay();
         }
         private int ToInteger(Object tag)
@@ -676,7 +722,8 @@ namespace BaiTienLenMienNam
                 MessageBox.Show("Ya-xua 20ph ulti gank tem gg , noob", "Tiến Lên Miền Nam", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
                 return;
             }
-            else if (PlayerDecksEmpty()) {
+            else if (PlayerDecksEmpty())
+            {
                 MessageBox.Show("You win the potato computer !", "Tiến Lên Miền Nam", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
                 return;
             }
@@ -792,7 +839,7 @@ namespace BaiTienLenMienNam
                     int pointerIndex = 0;
                     for (int i = 0; i < computerDecksPictureBoxes.Length; i++)
                     {
-                        if (tagToCardValue(playerTargetCards[0].Tag) == tagToCardValue(computerDecksPictureBoxes[i].Tag))
+                        if (tagToCardValue(playerTargetCards[0].Tag) <= tagToCardValue(computerDecksPictureBoxes[i].Tag))
                         {
                             pointerIndex = i;
                             break;
@@ -801,7 +848,8 @@ namespace BaiTienLenMienNam
                     for (int i = pointerIndex; i < computerDecksPictureBoxes.Length - 2; i++)
                     {
                         if ((tagToCardValue(computerDecksPictureBoxes[i].Tag) == tagToCardValue(computerDecksPictureBoxes[i + 1].Tag) - 1) &&
-                            (tagToCardValue(computerDecksPictureBoxes[i].Tag) == tagToCardValue(computerDecksPictureBoxes[i + 2].Tag) - 2)
+                            (tagToCardValue(computerDecksPictureBoxes[i].Tag) == tagToCardValue(computerDecksPictureBoxes[i + 2].Tag) - 2) && 
+                            (tagToCardValue(computerDecksPictureBoxes[i+2].Tag) != 15)
                             )
                         {
                             DisposePlayerTargetCards();
@@ -910,10 +958,13 @@ namespace BaiTienLenMienNam
         }
 
         // check xem con bai tren tay nguoi choi hay khong
-        private Boolean PlayerDecksEmpty() {
+        private Boolean PlayerDecksEmpty()
+        {
             Boolean flag = true;
-            for (int i = 0; i < playerDeckPictureBoxes.Length; i++) {
-                if (playerDeckPictureBoxes[i].IsDisposed == false) {
+            for (int i = 0; i < playerDeckPictureBoxes.Length; i++)
+            {
+                if (playerDeckPictureBoxes[i].IsDisposed == false)
+                {
                     return false;
                 }
             }
