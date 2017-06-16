@@ -693,7 +693,7 @@ namespace BaiTienLenMienNam
                 for (int i = 0; i < playerTargetCards.Count - 1; i++)
                 {
                     // phat hien chuoi bai khong tang theo tu tu
-                    if (tagToCardValue(playerTargetCards[i].Tag) != tagToCardValue(playerTargetCards[i + 1].Tag))
+                    if (tagToCardValue(playerTargetCards[i].Tag) != (tagToCardValue(playerTargetCards[i + 1].Tag) - 1))
                     {
                         resetPlayerCardsPosition();
                         return;
@@ -1002,7 +1002,8 @@ namespace BaiTienLenMienNam
                 Console.WriteLine("em bo luot");
                 return;
             }
-            else {
+            else
+            {
                 // long card play
                 //TODO: xay dung phuong thuc de may danh loc dai
                 MessageBox.Show("Máy bỏ!!!", "Tiến Lên Miền Nam", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
