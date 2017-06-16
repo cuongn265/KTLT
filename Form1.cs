@@ -698,10 +698,12 @@ namespace BaiTienLenMienNam
                         resetPlayerCardsPosition();
                         return;
                     }
-                    else {
+                    else
+                    {
                         // chuoi hop le, xuat bai
                         DisposeComputerTargetCards();
-                        for (i = 0; i < playerTargetCards.Count; i++) {
+                        for (i = 0; i < playerTargetCards.Count; i++)
+                        {
                             playerTargetCards[i].Location = new Point(x, y);
                             x = x + 30;
                         }
@@ -719,7 +721,7 @@ namespace BaiTienLenMienNam
         {
             if (computerDecksPictureBoxes.Length == 0)
             {
-                MessageBox.Show("Ya-xua 20ph ulti gank tem gg , noob", "Tiến Lên Miền Nam", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
+                MessageBox.Show("You lose , noob", "Tiến Lên Miền Nam", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
                 return;
             }
             else if (PlayerDecksEmpty())
@@ -779,9 +781,6 @@ namespace BaiTienLenMienNam
             else if (playerTargetCards.Count == 3)
             {
                 // 2 truong hop: 3 quan va loc
-                Console.WriteLine("Tiep chieu !");
-
-
                 int a = tagToCardValue(playerTargetCards[0].Tag);
                 int b = tagToCardValue(playerTargetCards[1].Tag);
                 int c = tagToCardValue(playerTargetCards[2].Tag);
@@ -794,7 +793,7 @@ namespace BaiTienLenMienNam
                     int pointerIndex = 0;
                     for (int i = 0; i < computerDecksPictureBoxes.Length; i++)
                     {
-                        if (tagToCardValue(playerTargetCards[0].Tag) == tagToCardValue(computerDecksPictureBoxes[i].Tag))
+                        if (tagToCardValue(playerTargetCards[0].Tag) <= tagToCardValue(computerDecksPictureBoxes[i].Tag))
                         {
                             pointerIndex = i;
                             break;
@@ -848,8 +847,8 @@ namespace BaiTienLenMienNam
                     for (int i = pointerIndex; i < computerDecksPictureBoxes.Length - 2; i++)
                     {
                         if ((tagToCardValue(computerDecksPictureBoxes[i].Tag) == tagToCardValue(computerDecksPictureBoxes[i + 1].Tag) - 1) &&
-                            (tagToCardValue(computerDecksPictureBoxes[i].Tag) == tagToCardValue(computerDecksPictureBoxes[i + 2].Tag) - 2) && 
-                            (tagToCardValue(computerDecksPictureBoxes[i+2].Tag) != 15)
+                            (tagToCardValue(computerDecksPictureBoxes[i].Tag) == tagToCardValue(computerDecksPictureBoxes[i + 2].Tag) - 2) &&
+                            (tagToCardValue(computerDecksPictureBoxes[i + 2].Tag) != 15)
                             )
                         {
                             DisposePlayerTargetCards();
@@ -879,13 +878,70 @@ namespace BaiTienLenMienNam
                     DisposePlayerTargetCards();
                 }
             }
-            else
+
+            else if (playerTargetCards.Count == 4)
             {
-                if (playerTargetCards.Count == 1)
+                int a = tagToCardValue(playerTargetCards[0].Tag);
+                int b = tagToCardValue(playerTargetCards[1].Tag);
+                int c = tagToCardValue(playerTargetCards[2].Tag);
+                int d = tagToCardValue(playerTargetCards[3].Tag);
+
+
+                int pointerIndex = 0;
+                for (int i = 0; i < computerDecksPictureBoxes.Length; i++)
                 {
-                    for (int i = 0; i < computerDecksPictureBoxes.Length; i++)
+                    if (tagToCardValue(playerTargetCards[0].Tag) <= tagToCardValue(computerDecksPictureBoxes[i].Tag))
                     {
-                        if ((ToInteger(computerDecksPictureBoxes[i].Tag) > ((ToInteger(playerTargetCards[0].Tag)))))
+                        pointerIndex = i;
+                        break;
+                    }
+                }
+
+                if (a == b && b == c && c == d)
+                {
+                    // tu quy
+                    for (int i = pointerIndex; i < computerDecksPictureBoxes.Length - 2; i++)
+                    {
+                        DisposePlayerTargetCards();
+                        if (PlayerDecksEmpty())
+                        {
+                            MessageBox.Show("You win the potato computer !", "Tiến Lên Miền Nam", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
+                            return;
+                        }
+                        computerDecksPictureBoxes[i].Location = new Point(x, y);
+                        x = x + 30;
+                        computerDecksPictureBoxes[i + 1].Location = new Point(x, y);
+                        x = x + 30;
+                        computerDecksPictureBoxes[i + 2].Location = new Point(x, y);
+                        x = x + 30;
+                        computerDecksPictureBoxes[i + 3].Location = new Point(x, y);
+
+                        computerTargetCards.Add(computerDecksPictureBoxes[i]);
+                        computerTargetCards.Add(computerDecksPictureBoxes[i + 1]);
+                        computerTargetCards.Add(computerDecksPictureBoxes[i + 2]);
+                        computerTargetCards.Add(computerDecksPictureBoxes[i + 3]);
+
+                        // End turn
+
+                        // xoa di ba vi tri nam lien ke nhau
+                        computerDecksPictureBoxes = removeCardsFromDeckAtPosition(i, computerDecksPictureBoxes);
+                        computerDecksPictureBoxes = removeCardsFromDeckAtPosition(i, computerDecksPictureBoxes);
+                        computerDecksPictureBoxes = removeCardsFromDeckAtPosition(i, computerDecksPictureBoxes);
+                        computerDecksPictureBoxes = removeCardsFromDeckAtPosition(i, computerDecksPictureBoxes);
+
+                        return;
+                    }
+                }
+                else
+                {
+                    // sanh 4 con
+                    for (int i = pointerIndex; i < computerDecksPictureBoxes.Length - 3; i++)
+                    {
+                        if ((tagToCardValue(computerDecksPictureBoxes[i].Tag) == tagToCardValue(computerDecksPictureBoxes[i + 1].Tag) - 1) &&
+                            (tagToCardValue(computerDecksPictureBoxes[i].Tag) == tagToCardValue(computerDecksPictureBoxes[i + 2].Tag) - 2) &&
+                            (tagToCardValue(computerDecksPictureBoxes[i].Tag) == tagToCardValue(computerDecksPictureBoxes[i + 3].Tag) - 3) &&
+                            (tagToCardValue(computerDecksPictureBoxes[i + 3].Tag) != 15)
+                            )
                         {
                             DisposePlayerTargetCards();
                             if (PlayerDecksEmpty())
@@ -894,20 +950,65 @@ namespace BaiTienLenMienNam
                                 return;
                             }
                             computerDecksPictureBoxes[i].Location = new Point(x, y);
+                            x = x + 30;
+                            computerDecksPictureBoxes[i + 1].Location = new Point(x, y);
+                            x = x + 30;
+                            computerDecksPictureBoxes[i + 2].Location = new Point(x, y);
+                            x = x + 30;
+                            computerDecksPictureBoxes[i + 3].Location = new Point(x, y);
+
                             computerTargetCards.Add(computerDecksPictureBoxes[i]);
-                            // xoa di
+                            computerTargetCards.Add(computerDecksPictureBoxes[i + 1]);
+                            computerTargetCards.Add(computerDecksPictureBoxes[i + 2]);
+                            computerTargetCards.Add(computerDecksPictureBoxes[i + 3]);
+
+                            // End turn
+
+                            // xoa di ba vi tri nam lien ke nhau
+                            computerDecksPictureBoxes = removeCardsFromDeckAtPosition(i, computerDecksPictureBoxes);
+                            computerDecksPictureBoxes = removeCardsFromDeckAtPosition(i, computerDecksPictureBoxes);
+                            computerDecksPictureBoxes = removeCardsFromDeckAtPosition(i, computerDecksPictureBoxes);
                             computerDecksPictureBoxes = removeCardsFromDeckAtPosition(i, computerDecksPictureBoxes);
                             return;
                         }
                     }
-                    MessageBox.Show("Máy bỏ!!!", "Tiến Lên Miền Nam",
-                    MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
-                    DisposePlayerTargetCards();
-                    Console.WriteLine("em bo luot");
-                    return;
                 }
+                MessageBox.Show("Máy bỏ!!!", "Tiến Lên Miền Nam", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
+                DisposePlayerTargetCards();
             }
-            return;
+
+            else if (playerTargetCards.Count == 1)
+            {
+                for (int i = 0; i < computerDecksPictureBoxes.Length; i++)
+                {
+                    if ((ToInteger(computerDecksPictureBoxes[i].Tag) > ((ToInteger(playerTargetCards[0].Tag)))))
+                    {
+                        DisposePlayerTargetCards();
+                        if (PlayerDecksEmpty())
+                        {
+                            MessageBox.Show("You win the potato computer !", "Tiến Lên Miền Nam", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
+                            return;
+                        }
+                        computerDecksPictureBoxes[i].Location = new Point(x, y);
+                        computerTargetCards.Add(computerDecksPictureBoxes[i]);
+                        // xoa di
+                        computerDecksPictureBoxes = removeCardsFromDeckAtPosition(i, computerDecksPictureBoxes);
+                        return;
+                    }
+                }
+                MessageBox.Show("Máy bỏ!!!", "Tiến Lên Miền Nam",
+                MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
+                DisposePlayerTargetCards();
+                Console.WriteLine("em bo luot");
+                return;
+            }
+            else {
+                // long card play
+                //TODO: xay dung phuong thuc de may danh loc dai
+                MessageBox.Show("Máy bỏ!!!", "Tiến Lên Miền Nam", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
+                DisposePlayerTargetCards();
+                return;
+            }
         }
 
         private void DisposePlayerTargetCards()
